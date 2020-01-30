@@ -21,7 +21,7 @@ my $np = Nagios::Plugin->new(
     . "[ --ignoressl ] "
     . "[ -h|--help ] ",
     version => '0.5',
-    blurb   => 'Nagios plugin to check JSON attributes via http(s)',
+    blurb   => 'Nagios plugin to check JSON attributes via http(s) and in local files',
     extra   => "\nExample: \n"
     . "check_json.pl --url http://192.168.5.10:9332/local_stats --attributes '{shares}->{dead}' "
     . "--warning :5 --critical :10 --perfvars '{shares}->{dead},{shares}->{live}' "
@@ -109,7 +109,7 @@ my $ua = LWP::UserAgent->new;
 $ua->env_proxy;
 $ua->agent('check_json/0.5');
 $ua->default_header('Accept' => 'application/json');
-$ua->protocols_allowed( [ 'http', 'https'] );
+$ua->protocols_allowed( [ 'http', 'https', 'file' ] );
 $ua->parse_head(0);
 $ua->timeout($np->opts->timeout);
 
